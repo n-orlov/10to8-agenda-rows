@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         10to8 agenda: rows by start time
 // @namespace    https://github.com/n-orlov
-// @version      0.4.0
+// @version      0.5.0
 // @description  In the Agenda view, line bookings up across staff columns so the same start time sits on the same row.
 // @match        https://app.10to8.com/apps/ceres/*
 // @run-at       document-idle
@@ -16,6 +16,18 @@
   // instead of stretching the booking before it.
   const BREAK_MIN = 30;
   const MARK = 'data-rows-by-time';
+  const DOUBLE = 'data-double-booked';
+  // Free slots ("07:58 - 08:05: Available for ...") open with the time range.
+  const FREE_SLOT_RE = /^\s*\d{1,2}:\d{2}\s*-\s*\d{1,2}:\d{2}:/;
+
+  const style = document.createElement('style');
+  style.textContent = `
+    [${DOUBLE}] {
+      outline: 3px solid #e8590c !important;
+      outline-offset: -1px;
+      box-shadow: 0 0 0 5px rgba(232, 89, 12, 0.25) !important;
+    }`;
+  document.head.appendChild(style);
 
   function times(harness) {
     const m = TIME_RE.exec(harness.innerText || '');
@@ -49,6 +61,29 @@
     el.setAttribute(MARK, '');
   }
 
+  // Outline patients in one column whose times overlap (e.g. both 11:00 - 11:07).
+  function markDoubleBookings(col) {
+    const booked = [...col.querySelectorAll(':scope > .fc-daygrid-event-harness')]
+      .filter(h => !FREE_SLOT_RE.test(h.innerText || ''))
+      .map(h => ({ h, t: times(h) }))
+      .filter(b => b.t)
+      .sort((a, b) => a.t.start - b.t.start);
+    let runEnd = -1;
+    let run = [];
+    const flush = () => {
+      if (run.length > 1) run.forEach(b => cardOf(b.h).setAttribute(DOUBLE, ''));
+    };
+    for (const b of booked) {
+      if (b.t.start >= runEnd) {
+        flush();
+        run = [];
+      }
+      run.push(b);
+      runEnd = Math.max(runEnd, b.t.end);
+    }
+    flush();
+  }
+
   // One table row of the day grid = one set of side-by-side columns.
   function alignRow(tr) {
     const cols = [...tr.querySelectorAll(':scope > td .fc-daygrid-day-events')];
@@ -60,6 +95,8 @@
       el.style.removeProperty('min-height');
       el.removeAttribute(MARK);
     }
+    for (const el of tr.querySelectorAll(`[${DOUBLE}]`)) el.removeAttribute(DOUBLE);
+    cols.forEach(markDoubleBookings);
 
     // Per column: first booking of each start time.
     const layout = cols.map(col => {
