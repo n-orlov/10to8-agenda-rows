@@ -6,6 +6,9 @@
 // @match        https://app.10to8.com/apps/ceres/*
 // @run-at       document-idle
 // @grant        none
+// @updateURL    https://raw.githubusercontent.com/n-orlov/10to8-agenda-rows/main/10to8-agenda-rows.user.js
+// @downloadURL  https://raw.githubusercontent.com/n-orlov/10to8-agenda-rows/main/10to8-agenda-rows.user.js
+// @homepageURL  https://github.com/n-orlov/10to8-agenda-rows
 // ==/UserScript==
 
 (function () {
