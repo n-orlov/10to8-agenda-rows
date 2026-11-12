@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         10to8 agenda: rows by start time
 // @namespace    https://github.com/n-orlov
-// @version      0.5.0
+// @version      0.6.0
 // @description  In the Agenda view, line bookings up across staff columns so the same start time sits on the same row.
 // @match        https://app.10to8.com/apps/ceres/*
 // @run-at       document-idle
@@ -24,7 +24,12 @@
   const FREE_SLOT_RE = /^\s*\d{1,2}:\d{2}\s*-\s*\d{1,2}:\d{2}:/;
 
   const style = document.createElement('style');
+  // Harnesses are white; keep our added top padding see-through so the
+  // column's own background shows instead of white blocks.
   style.textContent = `
+    .fc-daygrid-event-harness {
+      background-clip: content-box !important;
+    }
     [${DOUBLE}] {
       outline: 3px solid #e8590c !important;
       outline-offset: -1px;
