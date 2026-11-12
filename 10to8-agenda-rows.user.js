@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         10to8 agenda: rows by start time
 // @namespace    https://github.com/n-orlov
-// @version      0.3.0
+// @version      0.4.0
 // @description  In the Agenda view, line bookings up across staff columns so the same start time sits on the same row.
 // @match        https://app.10to8.com/apps/ceres/*
 // @run-at       document-idle
@@ -11,12 +11,19 @@
 (function () {
   'use strict';
 
-  const TIME_RE = /\b(\d{1,2}):(\d{2})\s*-\s*\d{1,2}:\d{2}/;
+  const TIME_RE = /\b(\d{1,2}):(\d{2})\s*-\s*(\d{1,2}):(\d{2})/;
+  // A free stretch this long (e.g. the staff break) stays an empty gap
+  // instead of stretching the booking before it.
+  const BREAK_MIN = 30;
   const MARK = 'data-rows-by-time';
 
-  function startMinute(harness) {
+  function times(harness) {
     const m = TIME_RE.exec(harness.innerText || '');
-    return m ? Number(m[1]) * 60 + Number(m[2]) : null;
+    return m && { start: m[1] * 60 + Number(m[2]), end: m[3] * 60 + Number(m[4]) };
+  }
+
+  function startMinute(harness) {
+    return times(harness)?.start ?? null;
   }
 
   function cardOf(harness) {
@@ -24,14 +31,17 @@
   }
 
   // Close a gap above `harness`: stretch the booking before it down to meet
-  // it, or pad the column's first booking when there is nothing above.
+  // it, or pad when there is nothing above or the time between is a break.
   function stretchBefore(harness, gap) {
     let prev = harness.previousElementSibling;
     while (prev && !prev.classList.contains('fc-daygrid-event-harness')) {
       prev = prev.previousElementSibling;
     }
-    const el = prev ? cardOf(prev) : harness;
-    if (prev) {
+    const before = prev && times(prev);
+    const isBreak = before && startMinute(harness) - before.end >= BREAK_MIN;
+    const stretch = prev && !isBreak;
+    const el = stretch ? cardOf(prev) : harness;
+    if (stretch) {
       el.style.setProperty('min-height', el.getBoundingClientRect().height + gap + 'px', 'important');
     } else {
       el.style.setProperty('padding-top', gap + 'px', 'important');
