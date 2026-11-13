@@ -10,24 +10,32 @@ It only changes how the page looks in your browser. It does not change any booki
 
 ## Install (once per computer, about 3 minutes)
 
-You need Google Chrome or Microsoft Edge.
+These steps are for **Microsoft Edge**, the browser with the blue wave icon.
+Using Google Chrome instead? See [Google Chrome](#google-chrome) below.
 
-1. **Install Tampermonkey**
-   - Chrome: <https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo>
-   - Edge: <https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd>
+1. **Install Tampermonkey.** Open
+   <https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd>,
+   click **Get**, then **Add extension**.
 
-   Click **Add to Chrome** / **Get**, then confirm.
+2. **Allow user scripts.** Type `edge://extensions` in the address bar and press Enter.
+   Turn on **Developer mode** (switch on the left).
+   If you see **Details** under Tampermonkey with an **Allow user scripts** switch, turn that on too.
 
-2. **Allow user scripts** (browsers require this for Tampermonkey to work)
-   - Chrome: open `chrome://extensions`, click **Details** under Tampermonkey and turn on **Allow User Scripts**.
-     On older Chrome versions where that switch is missing, turn on **Developer mode** (top right of the same page) instead.
-   - Edge: open `edge://extensions` and turn on **Developer mode** (left side).
-
-3. **Install the script**: open this link and click **Install** on the Tampermonkey page that appears:
+3. **Install the script.** Open this link and click **Install** on the Tampermonkey page that appears:
 
    **<https://raw.githubusercontent.com/n-orlov/10to8-agenda-rows/main/10to8-agenda-rows.user.js>**
 
 4. Open (or reload) the 10to8 calendar and choose **Day** and **Agenda**. The rows now line up.
+
+### Google Chrome
+
+1. Install Tampermonkey from
+   <https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo>
+   (**Add to Chrome**).
+2. Open `chrome://extensions`, click **Details** under Tampermonkey and turn on **Allow User Scripts**.
+   On older Chrome versions where that switch is missing, turn on **Developer mode** (top right) instead.
+
+Then do steps 3 and 4 from the Edge section.
 
 ## Updates
 
@@ -41,5 +49,5 @@ Click the Tampermonkey icon in the toolbar and switch off **10to8 agenda: rows b
 ## If it does not work
 
 - Nothing changes: check steps 2 and 4, and that the script is switched on in the Tampermonkey menu.
-- "Add to Chrome" is greyed out or blocked: your organisation manages extensions on this computer.
+- **Get** / **Add to Chrome** is greyed out or blocked: your organisation manages extensions on this computer.
   Ask IT to allow the Tampermonkey extension.
