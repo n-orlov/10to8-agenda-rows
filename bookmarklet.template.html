@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>10to8 Rows bookmark</title>
+<style>
+  :root { --bg: #fffdf3; --fg: #222; --muted: #555; --accent: #0b6e69; --box: #fff; --line: #ddd; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #1d1c18; --fg: #eee; --muted: #aaa; --accent: #4fc3b9; --box: #2a2924; --line: #444; }
+  }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 17px/1.55 "Segoe UI", Roboto, Arial, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 1.6em; margin: 0 0 .3em; }
+  h2 { font-size: 1.2em; margin-top: 1.8em; }
+  p.lead { color: var(--muted); margin-top: 0; }
+  .drag { display: inline-block; padding: 12px 22px; margin: 8px 0; border-radius: 8px; background: var(--accent);
+          color: #fff; font-weight: 600; text-decoration: none; cursor: grab; }
+  li { margin: .4em 0; }
+  kbd { border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; background: var(--box); font-size: .9em; }
+  textarea { width: 100%; box-sizing: border-box; height: 7em; font: 13px/1.4 Consolas, monospace; background: var(--box);
+             color: var(--fg); border: 1px solid var(--line); border-radius: 6px; padding: 8px; }
+  button { font: inherit; padding: 6px 14px; border-radius: 6px; border: 1px solid var(--line); background: var(--box);
+           color: var(--fg); cursor: pointer; }
+  .note { color: var(--muted); font-size: .95em; }
+</style>
+</head>
+<body>
+<main>
+<h1>10to8 Rows bookmark</h1>
+<p class="lead">For computers where browser extensions are blocked. A bookmark (favourite) does the same job as the
+add-on: bookings with the same start time line up in rows, small gaps close, overlaps get an orange outline.</p>
+
+<h2>Add the bookmark (once, about 1 minute)</h2>
+<p>These steps are for <b>Microsoft Edge</b> (blue wave icon). Chrome works the same way.</p>
+<ol>
+  <li>Show the favourites bar: press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd>.</li>
+  <li>Drag this green button up onto the favourites bar:<br>
+    <a class="drag" href="BOOKMARKLET_HREF" onclick="alert('Drag this button onto the favourites bar instead of clicking it.'); return false;">10to8 Rows</a></li>
+</ol>
+<p class="note">Dragging does not work? Add it by hand: press <kbd>Ctrl</kbd> + <kbd>D</kbd> to save this page as a
+favourite, call it <b>10to8 Rows</b> and save. Right-click the new favourite → <b>Edit</b>, replace the URL with the text
+below and save.</p>
+<textarea id="code" readonly>BOOKMARKLET_TEXT</textarea>
+<p><button onclick="const t=document.getElementById('code'); t.select(); navigator.clipboard.writeText(t.value); this.textContent='Copied';">Copy</button></p>
+
+<h2>Use it</h2>
+<ol>
+  <li>Open the 10to8 calendar and choose <b>Day</b> and <b>Agenda</b>.</li>
+  <li>Click <b>10to8 Rows</b> on the favourites bar.</li>
+</ol>
+<p>It stays on while the calendar is open, including when you change the day. After reloading the page
+(<kbd>F5</kbd>) or opening the calendar again, click it again. It always loads the latest version, so there is nothing to update.</p>
+<p class="note">It only changes how the calendar looks in your browser. It does not change any bookings.
+If the browser add-on (Tampermonkey) is installed, you do not need this bookmark.</p>
+</main>
+</body>
+</html>

@@ -8,6 +8,8 @@ A small add-on for the 10to8 / Sign In Scheduling **Calendar → Day → Agenda*
 
 It only changes how the page looks in your browser. It does not change any bookings.
 
+Extensions blocked on your computer? Use the [bookmark version](https://n-orlov.github.io/10to8-agenda-rows/bookmarklet.html).
+
 ## Install (once per computer, about 3 minutes)
 
 These steps are for **Microsoft Edge**, the browser with the blue wave icon.
@@ -49,5 +51,6 @@ Click the Tampermonkey icon in the toolbar and switch off **10to8 agenda: rows b
 ## If it does not work
 
 - Nothing changes: check steps 2 and 4, and that the script is switched on in the Tampermonkey menu.
-- **Get** / **Add to Chrome** is greyed out or blocked: your organisation manages extensions on this computer.
-  Ask IT to allow the Tampermonkey extension.
+- **Get** / **Add to Chrome** is greyed out or "blocked by your organisation": extensions are managed by IT on this
+  computer. Use the **[bookmark version](https://n-orlov.github.io/10to8-agenda-rows/bookmarklet.html)** instead
+  (no extension needed), or ask IT to allow Tampermonkey.

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         10to8 agenda: rows by start time
 // @namespace    https://github.com/n-orlov
-// @version      0.6.0
+// @version      0.7.0
 // @description  In the Agenda view, line bookings up across staff columns so the same start time sits on the same row.
 // @match        https://app.10to8.com/apps/ceres/*
 // @run-at       document-idle
@@ -13,6 +13,13 @@
 
 (function () {
   'use strict';
+
+  // Loaded twice (Tampermonkey and the bookmarklet, or the bookmarklet
+  // clicked again): just realign with the copy already running.
+  if (window.__agendaRowsAlign) {
+    window.__agendaRowsAlign();
+    return;
+  }
 
   const TIME_RE = /\b(\d{1,2}):(\d{2})\s*-\s*(\d{1,2}):(\d{2})/;
   // A free stretch this long (e.g. the staff break) stays an empty gap
@@ -146,5 +153,6 @@
     pending = requestAnimationFrame(alignAll);
   });
   window.addEventListener('resize', () => requestAnimationFrame(alignAll));
+  window.__agendaRowsAlign = alignAll;
   alignAll();
 })();
